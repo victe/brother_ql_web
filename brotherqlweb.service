@@ -8,7 +8,8 @@ Description=Brother QL-570 Label Printer Web Server
 User=victe
 # Type=simple
 # PIDFile=/run/my-service.pid
-ExecStart=/usr/bin/python3 /home/victe/brother_ql_web/brother_ql_web.py --config-dir /home/victe/brother_ql_web/
+Environment="BROTHERWS_DIR=/home/victe/brother_ql_web/"
+ExecStart=/usr/bin/python3 /home/victe/brother_ql_web/brother_ql_web.py
 # ExecReload=/home/transang/startup.sh reload
 # ExecStop=/home/transang/startup.sh stop
 # TimeoutSec=30

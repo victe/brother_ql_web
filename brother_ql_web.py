@@ -1,11 +1,11 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
 """
 This is a web service to print labels on Brother QL label printers.
 """
 
-import sys, logging, random, json, argparse
+import sys, logging, random, json, argparse, os
 from io import BytesIO
 
 from bottle import run, route, get, post, response, request, jinja2_view as view, static_file, redirect
@@ -22,11 +22,15 @@ logger = logging.getLogger(__name__)
 
 LABEL_SIZES = [ (name, label_type_specs[name]['name']) for name in label_sizes]
 
+# Se requiere la variable para definir el directorio (absoluto terminado en /)
+# donde está el fichero de configuración y la carpeta static
+config_dir = os.environ['BROTHERWS_DIR']
+
 try:
-    with open('config.json', encoding='utf-8') as fh:
+    with open(config_dir + 'config.json', encoding='utf-8') as fh:
         CONFIG = json.load(fh)
 except FileNotFoundError as e:
-    with open('config.example.json', encoding='utf-8') as fh:
+    with open(config_dir + 'config.example.json', encoding='utf-8') as fh:
         CONFIG = json.load(fh)
 
 
@@ -36,10 +40,10 @@ def index():
 
 @route('/static/<filename:path>')
 def serve_static(filename):
-    return static_file(filename, root='./static')
+    return static_file(filename, root=config_dir +'static')
 
 @route('/labeldesigner')
-@view('labeldesigner.jinja2')
+@view(config_dir + 'views/labeldesigner.jinja2')
 def labeldesigner():
     font_family_names = sorted(list(FONTS.keys()))
     return {'font_family_names': font_family_names,
