@@ -1,0 +1,21 @@
+[Unit]
+Description=Brother QL-570 Label Printer Web Server
+# After=network.target
+# After=systemd-user-sessions.service
+# After=network-online.target
+
+[Service]
+User=victe
+# Type=simple
+# PIDFile=/run/my-service.pid
+ExecStart=/usr/bin/python3 /home/victe/brother_ql_web/brother_ql_web.py --config-dir /home/victe/brother_ql_web/
+# ExecReload=/home/transang/startup.sh reload
+# ExecStop=/home/transang/startup.sh stop
+# TimeoutSec=30
+# Restart=on-failure
+# RestartSec=30
+# StartLimitInterval=350
+# StartLimitBurst=10
+
+[Install]
+WantedBy=multi-user.target
