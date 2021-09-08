@@ -1,11 +1,12 @@
 [Unit]
 Description=Brother QL-570 Label Printer Web Server
-# After=network.target
+After=network-online.target
+Wants=network-online.target
 # After=systemd-user-sessions.service
 # After=network-online.target
 
 [Service]
-User=victe
+#User=victe
 # Type=simple
 # PIDFile=/run/my-service.pid
 Environment="BROTHERWS_DIR=/home/victe/brother_ql_web/"
